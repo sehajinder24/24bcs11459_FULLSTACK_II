@@ -1,76 +1,85 @@
-import './App.css'
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from "react";
+import "./App.css";
+
 
 function App() {
 
+  const [time, setTime] = useState(0);
+  const [running, setRunning] = useState(false);
 
 
-
-  const [counter, setCounter] = useState(10);
-
-  const [color,setColor] = useState('olive')
-
-  const addElement = () => {
-    console.log("Item added");
-    setCounter(prev => prev + 1);
-    setColor('white');
-  }
-
-  const removeElement = () => {
-    console.log("Item removed");
-    setCounter(prev => prev - 1);
-  }
-  
-  const upd = () =>{
-    console.log("reset");
-    setCounter(0);
-  }
-  
-  const [theme,setTheme] = useState('olive');
-  
-  const col = () =>{
-    if(color=="White"){
-      setTheme("Black");
+  useEffect(() => {
+    let interval;
+    if (running) {
+      interval = setInterval(() => {
+        setTime((prev) => prev + 0.01);
+      }, 10);
     }
-    else{
-      setTheme("White");
-    }
-  }
+    return () => clearInterval(interval);
+  },[running]);
+
+
+  const start = () => {
+    setRunning(true);
+  };
+
+
+  const stop = () => {
+    setRunning(false);
+  };
+
+
+  const reset = () => {
+    setRunning(false);
+    setTime(0);
+  };
+
 
   return (
-    <>
-    
+    <div className="min-h-screen h-120 bg-gray-600 text-white">
+      <div className="bg-orange-500">
+      <h1 className="bg-orange-500 text-5xl font-bold mb-8">
+        Stopwatch
+      </h1>
 
-    <div className="min-h-screen w-full text-white text-center" style={{ backgroundColor: color }}>
-
-      <h1 className="text-5xl text-center bg-blue-500 w-full h-25">My Counter</h1>
-      <h2 className="text-4xl">Count: {counter}</h2>  
-      <h2>The page colour is : {theme}</h2>
-      <button onClick = {col}>switch change:</button>
-      <button className="text-3xl bg-green-500 w-48 h-20 m-2" onClick={addElement}>Increase</button>
-      <button className="text-3xl bg-red-500 w-48 h-20 m-2" onClick={removeElement}>Decrease</button>      
-
-      <h1 className="text-5xl bg-black-500 w-full h-24"></h1>
-
-      <h1 className="text-5xl bg-yellow-500 w-full h-24">My StopWatch</h1>
-
-      <h2 className="text-4xl">Time: {counter}</h2>  
-
-      <button className="text-3xl bg-green-500 w-48 h-20 m-2" onClick={addElement}>Start</button>
-
-      <button className="text-3xl bg-red-500 w-48 h-20 m-2" onClick={removeElement}>Stop</button>      
-
-      <button className="text-3xl bg-orange-500 w-48 h-20 m-2" onClick={upd}>Destroy</button>      
-
-      <div className="w-full min-h-screen bg-gray-800 flex flex-col items-center pt-8">
-      <h1 className="text-5xl bg-black w-50 h-24 content"></h1>
-      <h1 className="text-5xl bg-white w-50 h-24"></h1>
-      <h1 className="text-5xl bg-red-500 w-50 h-24"></h1>
+      <h1 className="bg-orange-500 h-50 text-4xl mb-8">
+        Time : {time.toFixed(2)} seconds
+      </h1>
       </div>
-    </div>
+      Commands :
+      <div>
+        <button
+          className="bg-green-500 px-6 py-3 m-2"
+          onClick={start}
+        >
+          Start
+        </button>
 
-    </>
-  )
+        <button
+          className="bg-red-500 px-6 py-3 m-2"
+          onClick={stop}
+        >
+          Stop
+        </button>
+
+        <button
+          className="bg-blue-500 px-6 py-3 m-2"
+          onClick={reset}
+        >
+          Reset
+        </button>
+
+
+        <div className="translate-x-[150px]">
+          <div className="bg-black w-5 px-6 py-3"></div>
+          <div className="bg-white w-5 px-6 py-3"></div>
+          <div className="bg-red-500 w-5 px-6 py-3"></div>
+        </div>
+
+      </div>
+
+    </div>
+  );
 }
 
 export default App;
