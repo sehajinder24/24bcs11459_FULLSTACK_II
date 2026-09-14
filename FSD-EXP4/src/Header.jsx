@@ -10,6 +10,7 @@ const StoreHeader = () => {
                 <button
                     key = {CurrencyCode}
                     onclick ={()=>changeCurrency(CurrencyCode)}
+                    >
                 {CurrencyCode}
                     </button>
             })}
